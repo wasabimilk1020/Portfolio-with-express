@@ -1,0 +1,86 @@
+<%include headerLayout.ejs %>
+ <!-- html 구조가 구데기인데....흠...... -->
+ <div class="container">
+  <h1 id="header">Skills</h1>
+  <div class="main">
+      <h2>React</h2>
+      <ul>
+          <li>아직 초보 수준입니다.</li>
+          <li>70</li>
+      </ul>
+  </div> 
+</div>
+<template>
+  <h2></h2>
+  <ul>
+      <li></li>
+      <li></li>
+  </ul>
+</template>
+
+<div id="button">
+  <a href="#" id="prev"><i class="fas fa-angle-double-left"></i></a>
+  <a href="#" id="next"><i class="fas fa-angle-double-right"></i></a>
+<script>
+var contents = [
+  {skill:"React", description:"아직 초보 수준입니다.", grade:70,},
+  {skill:"JavaScript", description:"기본 문법 다 알고 잘합니다.", grade:100,},
+  {skill:"Database", description:"오라클 국비지원 6개원간 수강했습니다.", grade:80,},
+]
+
+var main = document.querySelector(".main");
+var next = document.getElementById("next");
+var prev = document.getElementById("prev");
+var template = document.querySelector("template");
+var page = 0;
+
+next.addEventListener("click", function(e){
+  page++;
+  if(page>=contents.length)
+      page=(contents.length)-1;
+
+  var cloneNode = document.importNode(template.content,true);
+  var tempHeader = cloneNode.querySelector("h2");
+  var tempLi = cloneNode.querySelectorAll("li");
+ 
+  tempHeader.innerText = contents[page].skill;
+  tempLi[0].innerText = contents[page].description;
+  tempLi[1].innerText = contents[page].grade;
+  
+  main.innerHTML='';
+  
+  main.append(cloneNode);
+  var graph = document.querySelector(".main ul li:nth-child(2)");
+  //console.log(graph); 이해안되는게 DOM에 추가 안됬으면 여기 콘솔에 왜 찍힐까??
+  //console에 찍히고 나서 스타일을 변경해주는건데...;;;
+  setTimeout(function() {
+      graph.style.width=475*(graph.innerText/100)+"px";
+   }, 10);
+});
+prev.addEventListener("click", function(e){
+  page--;
+  if(page<=0)
+      page=0;
+
+  var cloneNode = document.importNode(template.content,true);
+  var tempHeader = cloneNode.querySelector("h2");
+  var tempLi = cloneNode.querySelectorAll("li");
+ 
+  tempHeader.innerText = contents[page].skill;
+  tempLi[0].innerText = contents[page].description;
+  tempLi[1].innerText = contents[page].grade;
+
+  main.innerHTML='';
+  main.append(cloneNode);
+  var graph = document.querySelector(".main ul li:nth-child(2)");
+  setTimeout(function() {
+      graph.style.width=475*(graph.innerText/100)+"px";
+   }, 10);
+});
+
+window.addEventListener("load",function(e){
+  var graph = document.querySelector(".main ul li:nth-child(2)");
+  graph.style.width=336+"px";
+})
+</script>
+<%include footerLayout.ejs %>

@@ -1,0 +1,113 @@
+<%include headerLayout.ejs %>
+<nav id="nav">
+  <h1>WEB'S</h1>
+  <div class="mNav">
+    <div class="icon-wrap">
+        <div class="icon"></div>
+    </div>
+  </div>
+  <ul class='menu'>
+      <!-- 버튼을 왜 굳이 링크로 만들었을까?? -->
+      <li class='active'><a href="#" >menu1</a></li>
+      <li><a href="#" >menu2</a></li>
+      <li><a href="#" >menu3</a></li>
+      <li><a href="#" >menu4</a></li>
+      <li><a href="#" >menu5</a></li>
+      <li><a href="#" >menu6</a></li>
+  </ul>
+</nav>
+ 
+<div id="contents">
+  <div id="section1"><h2>Time is <strong>gold</strong></h2></div>
+  <div id="section2"><h2>Seeing is <strong>believing</strong></h2></div>
+  <div id="section3"><h2>Asking costs <strong>nothing</strong></h2></div>
+  <div id="section4"><h2><strong>Better</strong> is to bow than break</h2></div>
+  <div id="section5"><h2><strong>Habit</strong> is second nature</h2></div>
+  <div id="section6"><h2>Pain past is <strong>pleasure</strong></h2></div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script>
+  var nav = $("#nav ul li");
+  var cont = $("#contents > div");
+  var height = document.getElementById('section1').scrollHeight;
+  var docHeight = 0;
+
+  window.addEventListener('load',function(){
+    docHeight = document.documentElement.scrollHeight;
+  })
+
+  //해상도에 따른 height 값 변화 및 스크롤 위치 고정
+  window.addEventListener('resize', function(){
+    docHeight = document.documentElement.scrollHeight;
+    document.documentElement.scrollTop=scrollPos*docHeight;
+
+    height = document.getElementById('section1').scrollHeight;
+    console.log("height: "+height);
+    var slideNum = $('.active').index()+1;  //index()가 0부터 시작함
+    Height=height * slideNum;
+  });
+
+  //menu 클릭 이벤트 (나중에 네비게이션바로 바꾸자)
+  nav.click(function (e) {
+    e.preventDefault();
+    var target = $(this);
+    var index = target.index();
+    var section = cont.eq(index);
+    var offset = section.offset().top;
+    $(document.documentElement).animate({ scrollTop: offset }, 600 );
+  }); 
+
+  const throttle = (func, time) => {
+    let inThrottle
+    return function () {
+      const args = arguments
+      const context = this
+      if (!inThrottle) {
+        func.apply(context, args)
+        inThrottle = true
+        setTimeout(() => inThrottle = false, time)
+      }
+    }
+  }
+
+  //스크롤 이벤트 변수 정리 좀 하자.
+  var Height=height;
+  var index = 1;
+  var lastScroll=0;
+  var scrollPos = 0;
+  $(window).scroll()
+
+  // 이벤트 핸들러
+  function navEvent(){
+    var curScroll = document.documentElement.scrollTop;
+    var scrollTop = $(document.documentElement).scrollTop();
+    scrollPos = (scrollTop/docHeight);
+    if(curScroll>lastScroll){ //scroll downward
+      if(scrollTop >= Height){
+        nav.eq(index-1).removeClass('active');
+        nav.eq(index).addClass('active');
+        index++;
+        Height+=height;
+      }
+    
+    }
+    else {  //scroll upward
+      if(scrollTop <= (Height-(height*2))){
+        index--;
+        nav.eq(index).removeClass('active');
+        nav.eq(index-1).addClass('active');
+        Height-=height;
+      }
+    }
+    lastScroll = curScroll <= 0 ? 0 : curScroll;
+  };
+
+  //navigation event
+  window.addEventListener('scroll', throttle(navEvent, 10)); 
+//흠...잘 동작 하는듯 한데 아직도 뭔가 정밀하지 못하게 동작하는듯....
+//1. 일단은 변수 정리 좀 하자.
+  
+</script>
+<%include footerLayout.ejs %>

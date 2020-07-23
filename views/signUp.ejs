@@ -1,0 +1,38 @@
+<%include headerLayout.ejs %>
+<header id='signUp_header'>
+  <h1>여기 허전함</h1>
+</header>
+<main id='signUp_main'>
+  <form action='/auth/signUp-process' method='post' class='signUp_box' autocomplete="off">
+    <dl>
+      <dt>
+        <label for='signUp_usr'>Username</label>
+      </dt>
+      <dd>
+        <input type='text' name='usr' id='signUp_usr' class='textBox'>
+      </dd>
+    </dl> <!--//Username -->
+    <dl>
+      <dt>
+        <label for='signUp_email'>Email</label>
+      </dt>
+      <dd>
+        <input type='email' name='email' id='signUp_email' class='textBox'>
+      </dd>
+    </dl> <!--//Email-->
+    <!-- 패스워드 형식도 만들어줘야함. 특수 문자 넣으라던지 이런거... -->
+    <dl>
+      <dt>
+        <label for='signUp_pwd'>Password</label>
+      </dt>
+      <dd>
+        <input type='password' name='pwd' id='signUp_pwd' class='textBox'>
+      </dd>
+    </dl> <!--//Password-->
+    <input type='submit' value='Sign Up' id='signUp_submit' class='textBox'>
+  </form>
+</main>
+<footer id='signUp_signIn'>
+  <span>Already have an account?</span><a href='/auth/signIn'>Sign in</a>
+</footer>
+<%include footerLayout.ejs %>

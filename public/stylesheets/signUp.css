@@ -1,0 +1,51 @@
+body {
+  background: #ebd1bc;
+  font-family: 'Jua', sans-serif;
+}
+#signUp_header {
+  height: 25vh;
+  display:flex;
+  justify-content: center;
+  align-items: flex-end;
+  transform:translateY(-20px);
+}
+#signUp_main {
+  height: 55vh;
+  display:flex;
+  justify-content: center;
+  align-items:baseline;
+}
+.signUp_box {
+  width: 300px; padding: 40px;
+  border-radius: 10px;
+  background: #fce38a;
+  text-align: center;
+}
+.textBox {
+  width: 180px; padding:15px 10px;
+  border-radius: 20px;
+  border:2px solid #f39c12;
+  background: none;
+  outline:none;
+}
+label {display:inline-block; padding:5px 0;}
+#signUp_email, #signUp_pwd, #signUp_usr {
+  transition:width 0.5s;
+}
+#signUp_email:focus, #signUp_pwd:focus, #signUp_usr:focus {
+  width: 230px;
+}
+#signUp_submit {
+  text-align: center;
+  margin-top:10px;
+  cursor:pointer;
+}
+#signUp_submit:hover {background: #f39c12; color:#fce38a}
+#signUp_signIn {
+  text-align: center;
+  height: 20vh;
+  font-size: 20px;
+  
+  /* 여기 오버 효과줌 주자 */
+}
+#signUp_signIn a { padding-left:10px;}
