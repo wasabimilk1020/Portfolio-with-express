@@ -15,14 +15,21 @@ var topicsRouter = require('./routes/topics');
 var authRouter = require('./routes/auth');
 
 //DB (mysql)
+// var connection = mysql.createConnection({
+//     host     : 'database-1.cs0gqqhuzzsh.ap-northeast-2.rds.amazonaws.com',
+//     user     : 'admin',
+//     password : 'akdlsql123',
+//     database : 'portfolio'
+// });
+// connection.connect();
+
 var connection = mysql.createConnection({
-    host     : 'database-1.cs0gqqhuzzsh.ap-northeast-2.rds.amazonaws.com',
-    user     : 'admin',
-    password : 'akdlsql123',
-    database : 'portfolio'
+  host     : 'localhost',
+  user     : 'root',
+  password : 'akdlsql123',
+  database : 'portfolio'
 });
 connection.connect();
-
 
 //session
 app.use(session({
