@@ -31,23 +31,10 @@
 <script>
   var nav = $("#nav ul li");
   var cont = $("#contents > div");
-  var height = document.getElementById('section1').scrollHeight;
-  var docHeight = 0;
-
-  window.addEventListener('load',function(){
-    docHeight = document.documentElement.scrollHeight;
-  })
-
-  //해상도에 따른 height 값 변화 및 스크롤 위치 고정
-  window.addEventListener('resize', function(){
-    docHeight = document.documentElement.scrollHeight;
-    document.documentElement.scrollTop=scrollPos*docHeight;
-
-    height = document.getElementById('section1').scrollHeight;
-    console.log("height: "+height);
-    var slideNum = $('.active').index()+1;  //index()가 0부터 시작함
-    Height=height * slideNum;
-  });
+  var scrollPos = 0;  
+  var height = document.getElementById('section1').scrollHeight; 
+  var Height = height;
+  //위의 변수emf 글로벌로 두는게 조금 이상한데...
 
   //menu 클릭 이벤트 (나중에 네비게이션바로 바꾸자)
   nav.click(function (e) {
@@ -59,55 +46,65 @@
     $(document.documentElement).animate({ scrollTop: offset }, 600 );
   }); 
 
+  //해상도에 따른 height 값 변화 및 스크롤 위치 고정
+  window.addEventListener('resize', function(){
+    docHeight = document.documentElement.scrollHeight;
+    document.documentElement.scrollTop=scrollPos*docHeight;
+
+    height = document.getElementById('section1').scrollHeight;
+    var slideNum = $('.active').index()+1;  //index()가 0부터 시작함
+    Height=height * slideNum;
+  });
+
+  //이 부분 loadash.js 라이브러리 사용하자....
   const throttle = (func, time) => {
     let inThrottle
     return function () {
-      const args = arguments
       const context = this
       if (!inThrottle) {
-        func.apply(context, args)
+        func.apply(context)
         inThrottle = true
         setTimeout(() => inThrottle = false, time)
       }
     }
   }
 
-  //스크롤 이벤트 변수 정리 좀 하자.
-  var Height=height;
-  var index = 1;
-  var lastScroll=0;
-  var scrollPos = 0;
-  $(window).scroll()
-
-  // 이벤트 핸들러
+  //navigation event handler
   function navEvent(){
-    var curScroll = document.documentElement.scrollTop;
-    var scrollTop = $(document.documentElement).scrollTop();
-    scrollPos = (scrollTop/docHeight);
-    if(curScroll>lastScroll){ //scroll downward
-      if(scrollTop >= Height){
-        nav.eq(index-1).removeClass('active');
-        nav.eq(index).addClass('active');
-        index++;
-        Height+=height;
+    var index = 1;
+    var lastScroll=0;
+
+    return function(){
+      var curScroll = document.documentElement.scrollTop;
+      var docHeight = document.documentElement.scrollHeight;
+      scrollPos = (curScroll/docHeight);
+
+      if(curScroll>lastScroll){ //to detect scroll downward
+        if(curScroll >= (Height-50)){
+          nav.eq(index-1).removeClass('active');
+          nav.eq(index).addClass('active');
+          index++;
+          Height+=height;
+        }
       }
-    
-    }
-    else {  //scroll upward
-      if(scrollTop <= (Height-(height*2))){
-        index--;
-        nav.eq(index).removeClass('active');
-        nav.eq(index-1).addClass('active');
-        Height-=height;
+      else {  //to detect scroll upward
+        if(curScroll <= (Height-(height*2)+50)){
+          index--;
+          nav.eq(index).removeClass('active');
+          nav.eq(index-1).addClass('active');
+          Height-=height;
+        }
       }
-    }
-    lastScroll = curScroll <= 0 ? 0 : curScroll;
+      lastScroll = curScroll <= 0 ? 0 : curScroll;
+      }
   };
 
   //navigation event
-  window.addEventListener('scroll', throttle(navEvent, 10)); 
+  window.addEventListener('scroll', throttle(navEvent(), 10)); 
 //흠...잘 동작 하는듯 한데 아직도 뭔가 정밀하지 못하게 동작하는듯....
-//1. 일단은 변수 정리 좀 하자.
+//1.리사이즈 발생 시 네비게이션 작동 제대로 안되는 현상..또...발생하네;;;
+//height 값이 변하면서 생기는 오류 같은데 봐보자....
+//2. 전역 변수로 선언된거 처리하자.
   
 </script>
 <%include footerLayout.ejs %>
