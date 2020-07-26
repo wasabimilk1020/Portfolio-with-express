@@ -1,38 +1,120 @@
 <%include headerLayout.ejs %>
-<header id='signUp_header'>
+<section class='container' style='display:none'>
   <h1>여기 허전함</h1>
-</header>
-<main id='signUp_main'>
-  <form action='/auth/signUp-process' method='post' class='signUp_box' autocomplete="off">
-    <dl>
-      <dt>
-        <label for='signUp_usr'>Username</label>
-      </dt>
-      <dd>
-        <input type='text' name='usr' id='signUp_usr' class='textBox'>
-      </dd>
-    </dl> <!--//Username -->
-    <dl>
-      <dt>
-        <label for='signUp_email'>Email</label>
-      </dt>
-      <dd>
-        <input type='email' name='email' id='signUp_email' class='textBox'>
-      </dd>
-    </dl> <!--//Email-->
-    <!-- 패스워드 형식도 만들어줘야함. 특수 문자 넣으라던지 이런거... -->
-    <dl>
-      <dt>
-        <label for='signUp_pwd'>Password</label>
-      </dt>
-      <dd>
-        <input type='password' name='pwd' id='signUp_pwd' class='textBox'>
-      </dd>
-    </dl> <!--//Password-->
-    <input type='submit' value='Sign Up' id='signUp_submit' class='textBox'>
+  <form action='/auth/signUp-process' method='post' autocomplete="off" class='signUp_box'>
+    <div class='input-area'>
+      <label for='signUp_usr'>Username</label>
+      <input type='text' name='usr' id='signUp_usr' class='textBox'>
+    </div>
+    <!--//Username -->
+    <div class='input-area'>
+      <label for='signUp_email'>Email</label>
+      <input type='email' name='email' id='signUp_email' class='textBox'>
+    </div>
+    <!--//Email-->
+    <div class='input-area'>
+      <label for='signUp_pwd'>Password</label>
+      <input type='password' name='pwd' id='signUp_pwd' class='textBox'>
+    </div>
+    <!--//Password-->
+    <div class='input-area'>
+      <input type='submit' value='Sign Up' id='signUp_submit' class='textBox'>
+    </div>
+    <!--//Password-->
   </form>
-</main>
-<footer id='signUp_signIn'>
-  <span>Already have an account?</span><a href='/auth/signIn'>Sign in</a>
-</footer>
+  <div id='signUp_signIn'>
+    <span>Already have an account?</span><a href='/auth/signIn'> Sign in</a>
+  </div>
+</section>
+
+<!-- 로딩 페이지 -->
+<div class="container">
+  <div id="animationWindow"></div>
+</div>
+
+<script>
+  var animData = {
+		  wrapper: document.querySelector('#animationWindow'),
+		  animType: 'svg',
+		  loop: true,
+		  prerender: true,
+		  autoplay: true,
+		  path: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/35984/LEGO_loader.json'
+	  };
+  
+	var anim = bodymovin.loadAnimation(animData);
+  anim.setSpeed(2.5);
+  
+  window.addEventListener('load',function() {
+    setTimeout(function(){
+      $("#animationWindow").fadeOut('slow');
+      // $("main").fadeIn('slow');
+      document.querySelector('.container').removeAttribute('style');
+    },2000);
+  });
+  
+  // 회원가입 형식 체크
+  var userInput = document.getElementById('signUp_usr');
+  var emailInput = document.getElementById('signUp_email');
+  var pwdInput = document.getElementById('signUp_pwd');
+  var inputArr = [userInput, emailInput, pwdInput];
+  
+  
+  var submit = document.getElementById('signUp_submit');
+
+  var usrRegExp = /^\w+$/; 
+  var emailRegExp = /^\w+([-_.]?\w+)*@\w+(\.)\w+$/;
+  var pwdRegExp = /\s/;
+  //위의 변수 정리 좀 하자.
+  // inputArr[0].setAttribute('value','no input!!');
+  submit.addEventListener('click',function(e){
+    var result = [];
+
+    //noInput check
+    for(let i=0; i<inputArr.length; i++){
+      if((!inputArr[i].value)){
+        //no input 한번만 표시하기 위한 조건문
+        if(inputArr[i].parentElement.children.length<3)
+          inputArr[i].parentElement.insertAdjacentHTML('beforeend','<span>no input</span>');
+          result.push(inputArr[i].value);
+      }
+      else{
+        //no input이 아닐때 표시되 있는 no input을 제거 하기 위한 조건문
+        if(inputArr[i].parentElement.children.length>2){
+          inputArr[i].parentElement.children[2].remove();
+        }
+        result.push(inputArr[i].value);
+      }
+    }
+
+    //result를 보고 false가 있으면 중지
+    for(let i=0; i<result.length; i++){
+      if(!result[i]){
+        e.preventDefault();
+        return;
+      }
+    }
+
+    //validInput check
+    if(
+      userInput.value.match(usrRegExp) && 
+      emailInput.value.match(emailRegExp) &&
+      (!(pwdInput.value.match(pwdRegExp)) && pwdInput.value)
+      ){
+        return;
+      }
+    else{
+      e.preventDefault();
+      console.log("invalid input!!");
+    }
+  });
+  //일단 제대로 동작하는 것 같은데...invalid일때 뭐가 invalid인지 표시하게 하자.
+  //username 중복 체크하자.
+</script>
 <%include footerLayout.ejs %>
+
+<!-- 1. 어플리케이션 단에서 한번 막고 (공백이랑 noInput은 막히고 특수문자 막히게하고 이메일형식도 해야됨)-->
+<!-- 2. db에서 공백으로 입력 시 null이 입력되게 insert문을 만들 수 잇나? (insert에는 체크하는게 없는듯)-->
+<!-- 로딩 페이지 크기 좀 줄이자 -->
+<!-- 로딩 완료 후 스크롤바가 생기는데 이거 없애보자 -->
+

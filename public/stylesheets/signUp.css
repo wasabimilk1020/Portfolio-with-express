@@ -1,51 +1,59 @@
 body {
+  height: 100vh;
   background: #ebd1bc;
   font-family: 'Jua', sans-serif;
 }
-#signUp_header {
-  height: 25vh;
+
+.container {
+  height: 100%;
   display:flex;
+  flex-direction:column;
   justify-content: center;
-  align-items: flex-end;
-  transform:translateY(-20px);
+  align-items: center;
 }
-#signUp_main {
-  height: 55vh;
-  display:flex;
-  justify-content: center;
-  align-items:baseline;
-}
+
 .signUp_box {
   width: 300px; padding: 40px;
+  margin-top: 20px; margin-bottom: 20px;
   border-radius: 10px;
   background: #fce38a;
-  text-align: center;
 }
+
+.input-area {
+  width: 100%;
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+} 
+
 .textBox {
   width: 180px; padding:15px 10px;
   border-radius: 20px;
   border:2px solid #f39c12;
-  background: none;
+  background: none; 
   outline:none;
 }
-label {display:inline-block; padding:5px 0;}
-#signUp_email, #signUp_pwd, #signUp_usr {
-  transition:width 0.5s;
+
+#signUp_signIn {
+  font-size: 20px;
 }
+
 #signUp_email:focus, #signUp_pwd:focus, #signUp_usr:focus {
   width: 230px;
 }
+
+#signUp_email, #signUp_pwd, #signUp_usr {
+  transition:width 0.5s;
+}
+
 #signUp_submit {
-  text-align: center;
   margin-top:10px;
   cursor:pointer;
 }
+
 #signUp_submit:hover {background: #f39c12; color:#fce38a}
-#signUp_signIn {
-  text-align: center;
-  height: 20vh;
-  font-size: 20px;
-  
-  /* 여기 오버 효과줌 주자 */
+
+/* 로딩 페이지 */
+#animationWindow{
+  width: 500px; height: 500px;
 }
-#signUp_signIn a { padding-left:10px;}
