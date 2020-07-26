@@ -30,7 +30,6 @@ module.exports=function(connection){
       logStat='아이디 or 비밀번호가 틀렸습니다.';
       req.session.is_signed = undefined;
     }
-    console.dir(req.cookies);
     res.render('signIn',{linkCss:'/stylesheets/signIn.css',logFailed:logStat});
   });
 

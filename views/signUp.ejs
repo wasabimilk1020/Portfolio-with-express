@@ -1,5 +1,5 @@
 <%include headerLayout.ejs %>
-<section class='container' style='display:none'>
+<section class='container'>
   <h1>여기 허전함</h1>
   <form action='/auth/signUp-process' method='post' autocomplete="off" class='signUp_box'>
     <div class='input-area'>
@@ -28,37 +28,37 @@
 </section>
 
 <!-- 로딩 페이지 -->
-<div class="container">
+<!-- <div class="container">
   <div id="animationWindow"></div>
-</div>
+  <h1 id='loadTxt'>Loading...</h1>
+</div> -->
 
 <script>
-  var animData = {
-		  wrapper: document.querySelector('#animationWindow'),
-		  animType: 'svg',
-		  loop: true,
-		  prerender: true,
-		  autoplay: true,
-		  path: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/35984/LEGO_loader.json'
-	  };
+  // var animData = {
+	// 	  wrapper: document.querySelector('#animationWindow'),
+	// 	  animType: 'svg',
+	// 	  loop: true,
+	// 	  prerender: true,
+	// 	  autoplay: true,
+	// 	  path: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/35984/LEGO_loader.json'
+	//   };
   
-	var anim = bodymovin.loadAnimation(animData);
-  anim.setSpeed(2.5);
+	// var anim = bodymovin.loadAnimation(animData);
+  // anim.setSpeed(2);
   
-  window.addEventListener('load',function() {
-    setTimeout(function(){
-      $("#animationWindow").fadeOut('slow');
-      // $("main").fadeIn('slow');
-      document.querySelector('.container').removeAttribute('style');
-    },2000);
-  });
+  // window.addEventListener('load',function() {
+  //   setTimeout(function(){
+  //     $("#animationWindow").fadeOut('slow');
+  //     // $("main").fadeIn('slow');
+  //     document.querySelector('.container').removeAttribute('style');
+  //   },2000);
+  // });
   
-  // 회원가입 형식 체크
+  //---회원가입 형식 체크---//
   var userInput = document.getElementById('signUp_usr');
   var emailInput = document.getElementById('signUp_email');
   var pwdInput = document.getElementById('signUp_pwd');
   var inputArr = [userInput, emailInput, pwdInput];
-  
   
   var submit = document.getElementById('signUp_submit');
 
@@ -66,11 +66,10 @@
   var emailRegExp = /^\w+([-_.]?\w+)*@\w+(\.)\w+$/;
   var pwdRegExp = /\s/;
   //위의 변수 정리 좀 하자.
-  // inputArr[0].setAttribute('value','no input!!');
   submit.addEventListener('click',function(e){
     var result = [];
 
-    //noInput check
+    //---noInput check---//
     for(let i=0; i<inputArr.length; i++){
       if((!inputArr[i].value)){
         //no input 한번만 표시하기 위한 조건문
@@ -79,7 +78,7 @@
           result.push(inputArr[i].value);
       }
       else{
-        //no input이 아닐때 표시되 있는 no input을 제거 하기 위한 조건문
+        //no input이 아닐때 표시되있는 no input을 제거 하기 위한 조건문
         if(inputArr[i].parentElement.children.length>2){
           inputArr[i].parentElement.children[2].remove();
         }
@@ -87,7 +86,7 @@
       }
     }
 
-    //result를 보고 false가 있으면 중지
+    //result배열에 false가 있으면 no input이다.
     for(let i=0; i<result.length; i++){
       if(!result[i]){
         e.preventDefault();
@@ -95,26 +94,56 @@
       }
     }
 
-    //validInput check
-    if(
-      userInput.value.match(usrRegExp) && 
-      emailInput.value.match(emailRegExp) &&
-      (!(pwdInput.value.match(pwdRegExp)) && pwdInput.value)
-      ){
+    //---validInput check---//
+    var ckUser = userInput.value.match(usrRegExp)
+    var ckEmail = emailInput.value.match(emailRegExp)
+    var ckPwd = pwdInput.value.match(pwdRegExp);
+
+    //valid면 if문 실행
+    if(ckUser && ckEmail && !(ckPwd))
         return;
-      }
+    //invalid이면 else문 실행
     else{
       e.preventDefault();
-      console.log("invalid input!!");
+      if(!ckUser){
+        if(userInput.parentElement.children.length<3)
+          userInput.parentElement.insertAdjacentHTML('beforeend','<span>invalid username</span>');
+        }
+      else{
+        if(userInput.parentElement.children.length>2){
+          userInput.parentElement.children[2].remove();
+        }
+      }
+
+      if(!ckEmail){
+        if(emailInput.parentElement.children.length<3)
+          emailInput.parentElement.insertAdjacentHTML('beforeend','<span>invalid email</span>');
+        }
+      else{
+        if(emailInput.parentElement.children.length>2){
+          emailInput.parentElement.children[2].remove();
+        }
+      }
+
+      if(ckPwd){
+        if(pwdInput.parentElement.children.length<3)
+        pwdInput.parentElement.insertAdjacentHTML('beforeend','<span>invalid password</span>');
+        }
+      else{
+        if(pwdInput.parentElement.children.length>2){
+          pwdInput.parentElement.children[2].remove();
+        }
+      }
     }
   });
-  //일단 제대로 동작하는 것 같은데...invalid일때 뭐가 invalid인지 표시하게 하자.
+  
   //username 중복 체크하자.
 </script>
 <%include footerLayout.ejs %>
 
-<!-- 1. 어플리케이션 단에서 한번 막고 (공백이랑 noInput은 막히고 특수문자 막히게하고 이메일형식도 해야됨)-->
-<!-- 2. db에서 공백으로 입력 시 null이 입력되게 insert문을 만들 수 잇나? (insert에는 체크하는게 없는듯)-->
-<!-- 로딩 페이지 크기 좀 줄이자 -->
-<!-- 로딩 완료 후 스크롤바가 생기는데 이거 없애보자 -->
+<!-- 1. no input이랑 invalid input을 동시에 체크 못하네... -->
+<!--원인이 no input을 따로 먼저 체크하고 invalid를 체크해줘서 그런다-->
 
+<!-- 2. -->
+<!-- 로딩 완료 후 스크롤바가 생기는데 이거 없애보자 -->
+<!-- db에서 공백으로 입력 시 null이 입력되게 insert문을 만들 수 잇나? (insert에는 체크하는게 없는듯) -->

@@ -21,6 +21,7 @@ body {
 
 .input-area {
   width: 100%;
+  padding-bottom:10px;
   display:flex;
   flex-direction:column;
   align-items: center;
@@ -57,3 +58,7 @@ body {
 #animationWindow{
   width: 500px; height: 500px;
 }
+.container #loadTxt {
+  transform: translate(0, -150px);
+}
+/* 이거 안먹히네.. */
