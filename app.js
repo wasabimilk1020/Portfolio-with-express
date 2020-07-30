@@ -1,18 +1,14 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mysql = require('mysql');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
-
+const flash = require('connect-flash');
 var app = express();
 
-//router modules
-var indexRouter = require('./routes/index');
-var topicsRouter = require('./routes/topics');
-var authRouter = require('./routes/auth');
+app.use(flash());
 
 //DB (mysql)
 // var connection = mysql.createConnection({
@@ -35,7 +31,7 @@ connection.connect();
 app.use(session({
   secret: 'asadlfkj!@#!@#dfgasdg',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   store:new FileStore(),
 }));
 
@@ -46,13 +42,19 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//--Sign In Aurhentification (passport.js)--//
+var passport = require('./public/javascripts/passport')(app, connection);
+
 //routing
+var indexRouter = require('./routes/index');
+var topicsRouter = require('./routes/topics');
+var authRouter = require('./routes/auth');
+
 app.use('/', indexRouter(connection));
 app.use('/topics', topicsRouter);
-app.use('/auth',authRouter(connection));
+app.use('/auth',authRouter(connection, passport));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
