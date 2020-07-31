@@ -18,7 +18,7 @@ body {
   font-family: 'Jua', sans-serif;
 }
 
-#email, #pwd{
+#signIn-email, #signIn-pwd{
   font-family: 'Jua', sans-serif;
   width: 180px;
   background: none;
@@ -46,3 +46,7 @@ body {
   outline:none;
 }
 #login:hover {background: #f39c12; color:#fce38a}
+
+span {
+  color:red; font-family: 'Jua', sans-serif;
+}

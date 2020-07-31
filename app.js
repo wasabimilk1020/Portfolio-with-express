@@ -6,6 +6,8 @@ var mysql = require('mysql');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const flash = require('connect-flash');
+const crypto = require('crypto');
+
 var app = express();
 
 app.use(flash());
@@ -45,7 +47,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //--Sign In Aurhentification (passport.js)--//
-var passport = require('./public/javascripts/passport')(app, connection);
+var passport = require('./public/javascripts/passport')(app, connection, crypto);
+//근데 왜 이때는 public을 쓰지? 정적 파일인데..흠...
 
 //routing
 var indexRouter = require('./routes/index');
@@ -54,7 +57,7 @@ var authRouter = require('./routes/auth');
 
 app.use('/', indexRouter(connection));
 app.use('/topics', topicsRouter);
-app.use('/auth',authRouter(connection, passport));
+app.use('/auth',authRouter(connection, passport, crypto));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

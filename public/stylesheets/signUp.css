@@ -27,6 +27,10 @@ body {
   align-items: center;
 } 
 
+.input-area span {
+  padding-top: 10px;
+}
+
 .textBox {
   width: 180px; padding:15px 10px;
   border-radius: 20px;
@@ -53,7 +57,7 @@ body {
 }
 
 #signUp_submit:hover {background: #f39c12; color:#fce38a}
-
+#signUp_signIn a:hover {color:#fff}
 /* 로딩 페이지 */
 #animationWindow{
   width: 500px; height: 500px;
@@ -61,4 +65,8 @@ body {
 .container #loadTxt {
   transform: translate(0, -150px);
 }
-/* 이거 안먹히네.. */
+
+section form span {
+  color:red;
+}
+

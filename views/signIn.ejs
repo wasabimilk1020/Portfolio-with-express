@@ -2,12 +2,15 @@
 <main id="wrap">
   <form class='signIn_box' action='/auth/signIn-process' method='post' autocomplete="off">
     <h1>Login</h1>
-    <input type='text' name='email' placeholder='Email' id='email'>
-    <span><%=noInputMsg.noEmail[0]%></span>
-    <input type='password' name='pwd' placeholder="Password" id='pwd'>
-    <span><%=noInputMsg.noPwd[0]%></span>
+    <div class='input-area'>
+      <input type='email' name='email' id='signIn-email' placeholder='Email'>
+    </div>
+    <div class='input-area'>
+      <input type='password' name='pwd' id='signIn-pwd' placeholder="Password">
+    </div>
     <input type='submit' value='Login' id='login'>
     <span><%=invalMsg.error[0]%></span>
   </form>
 </main>
+<script src='/javascripts/signInChecker.js'></script>
 <%include footerLayout.ejs %>

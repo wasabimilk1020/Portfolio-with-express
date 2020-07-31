@@ -19,6 +19,7 @@
     <!--//Password-->
     <div class='input-area'>
       <input type='submit' value='Sign Up' id='signUp_submit' class='textBox'>
+      <span><%=errMsg%></span>
     </div>
     <!--//Password-->
   </form>
@@ -28,122 +29,18 @@
 </section>
 
 <!-- 로딩 페이지 -->
-<!-- <div class="container">
+<!-- 이 부분 section 태그 안에 넣어서 다시 레이아웃 잡자 -->
+<!-- <div id='loading' class="container">
   <div id="animationWindow"></div>
   <h1 id='loadTxt'>Loading...</h1>
 </div> -->
 
-<script>
-  // var animData = {
-	// 	  wrapper: document.querySelector('#animationWindow'),
-	// 	  animType: 'svg',
-	// 	  loop: true,
-	// 	  prerender: true,
-	// 	  autoplay: true,
-	// 	  path: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/35984/LEGO_loader.json'
-	//   };
-  
-	// var anim = bodymovin.loadAnimation(animData);
-  // anim.setSpeed(2);
-  
-  // window.addEventListener('load',function() {
-  //   setTimeout(function(){
-  //     $("#animationWindow").fadeOut('slow');
-  //     // $("main").fadeIn('slow');
-  //     document.querySelector('.container').removeAttribute('style');
-  //   },2000);
-  // });
-  
-  //---회원가입 형식 체크---// (불필요한 리퀘스트 방지 및 사용자 편의를 위한 형식 체크)
-  var userInput = document.getElementById('signUp_usr');
-  var emailInput = document.getElementById('signUp_email');
-  var pwdInput = document.getElementById('signUp_pwd');
-  var inputArr = [userInput, emailInput, pwdInput];
-  
-  var submit = document.getElementById('signUp_submit');
-
-  var usrRegExp = /^\w+$/; 
-  var emailRegExp = /^\w+([-_.]?\w+)*@\w+(\.)\w+$/;
-  var pwdRegExp = /\s/;
-  //위의 변수 정리 좀 하자.
-  submit.addEventListener('click',function(e){
-    var result = [];
-
-    //---noInput check---//
-    for(let i=0; i<inputArr.length; i++){
-      if((!inputArr[i].value)){
-        //no input 한번만 표시하기 위한 조건문
-        if(inputArr[i].parentElement.children.length<3)
-          inputArr[i].parentElement.insertAdjacentHTML('beforeend','<span>no input</span>');
-          result.push(inputArr[i].value);
-      }
-      else{
-        //no input이 아닐때 표시되있는 no input을 제거 하기 위한 조건문
-        if(inputArr[i].parentElement.children.length>2){
-          inputArr[i].parentElement.children[2].remove();
-        }
-        result.push(inputArr[i].value);
-      }
-    }
-
-    //result배열에 false가 있으면 no input이다.
-    for(let i=0; i<result.length; i++){
-      if(!result[i]){
-        e.preventDefault();
-        return;
-      }
-    }
-
-    //---validInput check---//
-    var ckUser = userInput.value.match(usrRegExp)
-    var ckEmail = emailInput.value.match(emailRegExp)
-    var ckPwd = pwdInput.value.match(pwdRegExp);
-
-    //valid면 if문 실행
-    if(ckUser && ckEmail && !(ckPwd))
-        return;
-    //invalid이면 else문 실행
-    else{
-      e.preventDefault();
-      if(!ckUser){
-        if(userInput.parentElement.children.length<3)
-          userInput.parentElement.insertAdjacentHTML('beforeend','<span>invalid username</span>');
-        }
-      else{
-        if(userInput.parentElement.children.length>2){
-          userInput.parentElement.children[2].remove();
-        }
-      }
-
-      if(!ckEmail){
-        if(emailInput.parentElement.children.length<3)
-          emailInput.parentElement.insertAdjacentHTML('beforeend','<span>invalid email</span>');
-        }
-      else{
-        if(emailInput.parentElement.children.length>2){
-          emailInput.parentElement.children[2].remove();
-        }
-      }
-
-      if(ckPwd){
-        if(pwdInput.parentElement.children.length<3)
-        pwdInput.parentElement.insertAdjacentHTML('beforeend','<span>invalid password</span>');
-        }
-      else{
-        if(pwdInput.parentElement.children.length>2){
-          pwdInput.parentElement.children[2].remove();
-        }
-      }
-    }
-  });
-  
-  //username 중복 체크하자.
-</script>
+<!-- 회원가입 형식 체크 -->
+<script src='/javascripts/signUpChecker.js'></script>
+<!-- 로딩 애니메이션 -->
+<!-- <script src='/javascripts/loading.js'></script> -->
 <%include footerLayout.ejs %>
 
-<!-- 1. no input이랑 invalid input을 동시에 체크 못하네... -->
-<!--원인이 no input을 따로 먼저 체크하고 invalid를 체크해줘서 그런다-->
 
-<!-- 2. -->
-<!-- 로딩 완료 후 스크롤바가 생기는데 이거 없애보자 -->
-<!-- db에서 공백으로 입력 시 null이 입력되게 insert문을 만들 수 잇나? (insert에는 체크하는게 없는듯) -->
+
+
