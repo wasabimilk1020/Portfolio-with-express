@@ -3,10 +3,10 @@
   <form class='signIn_box' action='/auth/signIn-process' method='post' autocomplete="off">
     <h1>Login</h1>
     <div class='input-area'>
-      <input type='email' name='email' id='signIn-email' placeholder='Email'>
+      <input type='email' name='email' id='signIn-email' placeholder='Email' value='123@gmail.com'>
     </div>
     <div class='input-area'>
-      <input type='password' name='pwd' id='signIn-pwd' placeholder="Password">
+      <input type='password' name='pwd' id='signIn-pwd' placeholder="Password" value='123'>
     </div>
     <input type='submit' value='Login' id='login'>
     <span><%=invalMsg.error[0]%></span>
