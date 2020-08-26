@@ -56,8 +56,8 @@ var topicsRouter = require('./routes/topics');
 var authRouter = require('./routes/auth');
 
 app.use('/', indexRouter(connection));
-app.use('/topics', topicsRouter);
-app.use('/auth',authRouter(connection, passport, crypto));
+// app.use('/topics', topicsRouter);
+// app.use('/auth',authRouter(connection, passport, crypto));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

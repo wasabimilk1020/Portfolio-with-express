@@ -1,0 +1,107 @@
+/* 레이아웃 */
+
+.container {
+  width: 900px;
+  margin:0 auto;
+}
+header {
+  font-family: 'Jua', sans-serif;
+}
+
+.header-menu {
+  height: 5vh;
+  display:flex;
+  justify-content: flex-end; 
+  align-items: flex-end;
+}
+
+/* header title */
+.header-tit {
+  height: 35vh;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header .header-tit h1 {
+  font-size: 50px; 
+  transform: translateY(30px);
+}
+/* ---end of header title--- */
+
+/* navigation */
+.main {
+  height: 60vh;
+  display:flex;
+  justify-content: center;
+  align-items:baseline;
+  transform: translateY(-20px);
+}
+.main ul {
+  -webkit-transform: rotate(-40deg) skew(20deg,5deg);
+          transform: rotate(-40deg) skew(20deg,5deg);
+}
+
+.main ul .list-item {
+  background: #fce38a;
+  color: #575757; font-size:20px;
+  text-align: center;
+  width: 75px; height: 60px; 
+  line-height: 60px;
+  position: relative; 
+  display: inline-block; 
+  text-decoration: none;
+  box-shadow: -2em 1.5em 0 #b83b5e25;
+  transition: all 0.25s linear;
+}
+
+.main ul .list-item:hover {
+  background: #cec39d;
+  -webkit-transform: translate(10px,-10px);
+          transform:translate(10px,-10px);
+}
+
+.main ul .list-item::before{
+  content:'';
+  width:15px; height: 60px;
+  background-color:#f8de80;
+  position: absolute; top:7.5px; left:-15px;
+  -webkit-transform: skewY(-45deg);
+          transform: skewY(-45deg);
+
+}
+.main ul .list-item::after{
+  content:'';
+  width:15px; height: 75px;
+  background-color: #ffde7d;
+  position: absolute; left:22.5px; top:30px;
+  -webkit-transform: rotate(90deg) skew(0, 45deg);
+          transform: rotate(90deg) skew(0, 45deg);
+}
+
+.main ul .list-item span {
+  position: absolute; left:70px;
+  font-family: 'Jua', sans-serif; 
+  width: 90px;
+  display: inline-block;
+  opacity:0;
+  pointer-events:none;
+  transition: all 0.15s 0.15s linear;
+}
+.main ul li:nth-child(1) span {
+  left:63px;
+}
+.main ul li:nth-child(2) span {
+  left:53px;
+}
+.main ul .list-item:hover span {
+  opacity:1;
+  pointer-events:auto;
+}
+/* ---end of nav--- */
+
+@media (max-width:1450px){
+  header .header-tit h1 {font-size: 40px;}
+  nav {left:50%}
+  .header-tit {top:20%;}
+}

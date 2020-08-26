@@ -1,11 +1,8 @@
-body {
-  height: 100vh;
-  background: #ebd1bc;
-  font-family: 'Jua', sans-serif;
-}
 
-.container {
-  height: 100%;
+
+.signUp-container {
+  /* height: 100%; 여기서는 body의 height이 inherit되질 않네?? */
+  height: 100vh;
   display:flex;
   flex-direction:column;
   justify-content: center;
